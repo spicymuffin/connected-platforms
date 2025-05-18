@@ -12,8 +12,8 @@ struct data
 
 int main(int argc, char* argv[])
 {
-    struct data prev_data = {0, 0, 0, 0};
-    struct data curr_data = {0, 0, 0, 0};
+    struct data prev_data = { 0, 0, 0, 0 };
+    struct data curr_data = { 0, 0, 0, 0 };
 
     while (1)
     {
@@ -26,12 +26,7 @@ int main(int argc, char* argv[])
 
         char buffer[1024];
 
-        unsigned long user_time;
-        unsigned long nice_time;
-        unsigned long system_time;
-        unsigned long idle_time;
-
-        unsigned long total_time;
+        unsigned long total;
 
 
         if (fp)
@@ -46,16 +41,17 @@ int main(int argc, char* argv[])
 
             fclose(fp);
 
-            float user_time_diff = (float)(curr_data.user - prev_data.user);
-            float nice_time_diff = (float)(curr_data.nice - prev_data.nice);
-            float system_time_diff = (float)(curr_data.system - prev_data.system);
-            float idle_time_diff = (float)(curr_data.idle - prev_data.idle);
+            float user = (float)(curr_data.user - prev_data.user);
+            float nice = (float)(curr_data.nice - prev_data.nice);
+            float system = (float)(curr_data.system - prev_data.system);
+            float idle = (float)(curr_data.idle - prev_data.idle);
 
-            total_time = user_time_diff + nice_time_diff + system_time_diff + idle_time_diff;
+            total = user + nice + system + idle;
 
-            cpu_usage = (1 - (float)idle_time / (float)total_time) * 100;
+            cpu_usage = (1 - idle / total) * 100;
 
-            printf("CPU Usage: %.2f%%\n", cpu_usage);
+            printf("\rCPU Usage: %.2f%%                 ", cpu_usage);
+            fflush(stdout);  // Force output to appear immediately
         }
         else
         {

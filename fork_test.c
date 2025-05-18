@@ -15,13 +15,14 @@ int main(int argc, char* argv[])
     {
         // child process
         printf("child process pid=%d\n", getpid());
-        // execute ls
-        char* args[] = {"/bin/ls", "-l", NULL};
 
+        // execute ls
+        char* args[] = { "/bin/ls", "-l", NULL };
         execv(args[0], args);
 
-        printf("child process exiting\n");
-        exit(0);
+        // should not reach here unless execv fails
+        perror("execv failed");
+        exit(1);
     }
     else
     {

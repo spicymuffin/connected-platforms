@@ -1,0 +1,2 @@
+run 'make' to get cpu_usage and fork_test elfs
+run them with './cpu_usage' and './fork_test'
